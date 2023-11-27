@@ -15,11 +15,7 @@ router.get("/all-sessions", verifyToken, async (req, res) => {
 
 router.post("/book-session", verifyToken, async (req, res) => {
   try {
-    const username = req.headers.username;
-
-    if (!username) {
-      return res.status(403).send("put your username");
-    }
+    const username = req.username;
 
     const bookedSess = await Sessions.findOneAndUpdate(
       { session: req.body.session },
