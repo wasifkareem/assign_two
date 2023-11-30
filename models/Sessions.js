@@ -5,7 +5,7 @@ const SessionSchema = new mongoose.Schema({
   warden: { type: String, required: true },
   day: { type: String, required: true },
   duration: { type: String, required: true },
-  bookedBy: { type: String, default: "not booked yet!" },
+  bookedBy: { type: Array, default: "not booked yet!" },
   time: { type: String, required: true },
 });
 

@@ -16,10 +16,11 @@ router.get("/all-sessions", verifyToken, async (req, res) => {
 router.post("/book-session", verifyToken, async (req, res) => {
   try {
     const username = req.username;
+    const userID = req.userID;
 
     const bookedSess = await Sessions.findOneAndUpdate(
       { session: req.body.session },
-      { $set: { bookedBy: username } },
+      { $set: { bookedBy: [`User: ${username}`, `Unique ID: ${userID}`] } },
       { new: true }
     );
     res.status(200).json(bookedSess);
@@ -30,7 +31,9 @@ router.post("/book-session", verifyToken, async (req, res) => {
 
 router.get("/pending-sessions", verifyToken, async (req, res) => {
   try {
-    const pendingSess = await Sessions.find({ bookedBy: { $ne: null } });
+    const pendingSess = await Sessions.find({
+      bookedBy: { $ne: "not booked yet!" },
+    });
 
     res.status(200).json(pendingSess);
   } catch (err) {
